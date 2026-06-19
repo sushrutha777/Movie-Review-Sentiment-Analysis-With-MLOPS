@@ -188,7 +188,7 @@ else:
 
 # Main Header (Full width)
 st.markdown('<h1 class="main-title">End-to-End Movie Review Sentiment Analysis with MLOps</h1>', unsafe_allow_html=True)
-st.markdown("##### Real-time Sentiment Classifier served via FastAPI & DistilBERT")
+st.markdown("##### Production-ready sentiment analysis system powered by DistilBERT, FastAPI, and Docker.")
 st.markdown("<br>", unsafe_allow_html=True)
 
 # Main Layout split
