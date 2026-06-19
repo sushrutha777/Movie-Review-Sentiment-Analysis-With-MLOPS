@@ -1,12 +1,11 @@
 
-# Movie Review Sentiment Analysis - MLOps Pipeline
-
+# End-to-End Movie Review Sentiment Analysis with MLOps
 
 A production-ready, end-to-end MLOps pipeline for movie review sentiment classification. The project fine-tunes a **DistilBERT** model on movie reviews, tracks experiments with **MLflow**, serves predictions via a **FastAPI** REST interface, and provides a polished **Streamlit** frontend. The entire stack is containerized with **Docker** and automated using **GitHub Actions CI/CD**.
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 ```mermaid
 graph TD
@@ -28,7 +27,7 @@ graph TD
 
 ---
 
-## 📁 Folder Structure
+## Folder Structure
 
 ```
 movie-sentiment-mlops/
@@ -47,12 +46,9 @@ movie-sentiment-mlops/
 │
 ├── data/                      # Local data cache folder (created dynamically)
 │
-├── models/
-│   └── distilbert_v1/         # Local save path for best fine-tuned model checkpoint
-│
 ├── notebooks/
-│   └── DistilBert_Transformer.ipynb # Jupyter notebook showcasing pipelines
-
+│   ├── DistilBert_Transformer.ipynb # Jupyter notebook showcasing pipelines
+│   └── distilbert_imdb_tf_model/    # Local save path for best fine-tuned model checkpoint
 │
 ├── src/
 │   ├── config.py              # Central hyperparameters and file path configurations
@@ -76,7 +72,7 @@ movie-sentiment-mlops/
 
 ---
 
-## 🚀 Local Quickstart Setup
+## Local Quickstart Setup
 
 ### Prerequisites
 * Python 3.11
@@ -113,7 +109,7 @@ We use a local SQLite backend to track runs and support the MLflow Model Registr
    # Run training
    python src/train.py
    ```
-   *This logs training metrics, final test metrics, registers the best model under the name `DistilBERTSentimentModel`, and saves checkpoints under `models/distilbert_v1/`.*
+   *This logs training metrics, final test metrics, registers the best model under the name `DistilBERTSentimentModel`, and saves checkpoints under `notebooks/distilbert_imdb_tf_model/`.*
 
 3. **Verify Evaluation**:
    Run evaluation independently to compute the classification report and save the confusion matrix plot:
@@ -124,7 +120,7 @@ We use a local SQLite backend to track runs and support the MLflow Model Registr
 
 ---
 
-## 🔌 API Service Documentation (FastAPI)
+## API Service Documentation (FastAPI)
 
 Start the FastAPI application locally:
 ```bash
@@ -166,7 +162,7 @@ Access the interactive API documentation at: `http://127.0.0.1:8000/docs`
 
 ---
 
-## 🖥️ Streamlit Web Interface
+## Streamlit Web Interface
 
 To launch the interactive dashboard, run:
 ```bash
@@ -175,12 +171,12 @@ streamlit run app/app.py
 This launches a browser tab at `http://localhost:8501`. Features include:
 * **Interactive Text Input**: Write or copy movie reviews.
 * **Graphical Confidence Meters**: Visual progress bars mapping sentiment probability.
-* **Prediction History**: Lists previous evaluations in a session-state tracker.
+* **Recent Predictions**: Lists previous evaluations in a session-state tracker.
 * **Dynamic API Health Checks**: Live status indicators monitoring the FastAPI backend.
 
 ---
 
-## 🐳 Docker Deployment
+## Docker Deployment
 
 You can build and deploy the entire multi-service container system in one click.
 
@@ -205,7 +201,8 @@ docker run -p 8000:8000 movie-sentiment-mlops
 
 ---
 
-## 🧪 Testing Suite
+## Testing Suite
+
 We use `pytest` for unit and integration testing. Run:
 ```bash
 pytest tests/ -v
@@ -217,7 +214,7 @@ The test suite validates:
 
 ---
 
-## 🌐 Production Cloud Architecture
+## Production Cloud Architecture
 
 For cloud deployments, follow this MLOps topology:
 1. **GitHub Repository**: Holds the source code and configuration.
@@ -225,4 +222,3 @@ For cloud deployments, follow this MLOps topology:
 3. **MLflow database store**: Deployed on a managed cloud database (e.g., PostgreSQL) with artifacts stored on an S3/GCS bucket (Optional).
 4. **FastAPI Web Service**: Deployed on **Hugging Face Spaces** using the `Dockerfile`, pulling the tracked LFS model weights.
 5. **Streamlit UI**: Deployed on **Streamlit Community Cloud**, querying the public Hugging Face Spaces FastAPI endpoint over HTTPS.
-
