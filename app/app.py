@@ -186,21 +186,24 @@ else:
     )
     st.sidebar.warning("FastAPI Backend is unreachable. Please verify that the API server is running.")
 
+# Main Header (Full width)
+st.markdown('<h1 class="main-title">Sentify MLOps Portal</h1>', unsafe_allow_html=True)
+st.markdown("##### Real-time Sentiment Classifier served via FastAPI & DistilBERT")
+st.markdown("<br>", unsafe_allow_html=True)
+
 # Main Layout split
 col1, col2 = st.columns([7, 5])
 
 with col1:
-    st.markdown('<h1 class="main-title">Sentify MLOps Portal</h1>', unsafe_allow_html=True)
-    st.markdown("##### Real-time Sentiment Classifier served via FastAPI & DistilBERT")
-    
-    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("<h3 style='margin-top: 0rem; font-weight: 600;'>Movie Review Text</h3>", unsafe_allow_html=True)
     
     # Textarea input
     review_input = st.text_area(
-        "Movie Review Text:",
+        "Movie Review Text",
         value="",
         placeholder="Type a review here... (e.g., 'An absolute cinematic masterpiece, outstanding performances!')",
-        height=180
+        height=180,
+        label_visibility="collapsed"
     )
     
     # Predict button
@@ -259,7 +262,7 @@ with col1:
 
 # Results and History
 with col2:
-    st.markdown("<h3 style='margin-top: 2rem; font-weight: 600;'>Classification Result</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='margin-top: 0rem; font-weight: 600;'>Classification Result</h3>", unsafe_allow_html=True)
     
     if "last_result" in st.session_state:
         result = st.session_state.last_result
