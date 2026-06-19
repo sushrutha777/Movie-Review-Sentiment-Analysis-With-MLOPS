@@ -1,12 +1,3 @@
----
-title: Movie Sentiment API
-emoji: 🎬
-colorFrom: blue
-colorTo: indigo
-sdk: docker
-app_port: 7860
-pinned: false
----
 
 # Movie Review Sentiment Analysis - MLOps Pipeline
 
