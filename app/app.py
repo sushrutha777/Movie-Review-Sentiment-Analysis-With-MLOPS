@@ -7,7 +7,7 @@ FASTAPI_URL = os.getenv("FASTAPI_URL", "http://127.0.0.1:8000").rstrip("/")
 
 st.set_page_config(
     page_title="Sentify - DistilBERT MLOps",
-    page_icon="🎬",
+    page_icon=None,
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -23,74 +23,82 @@ st.markdown(
         font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
     }
     
-    /* Title gradient */
+    /* Title styling */
     .main-title {
-        font-size: 3rem;
-        font-weight: 800;
-        background: linear-gradient(135deg, #FF6B6B 0%, #4D96FF 100%);
+        font-size: 2.5rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, #1E293B 0%, #475569 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         margin-bottom: 0.2rem;
     }
     
+    @media (prefers-color-scheme: dark) {
+        .main-title {
+            background: linear-gradient(135deg, #F8FAFC 0%, #CBD5E1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    }
+    
     /* Glassmorphic card styling */
     .glass-card {
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
         padding: 24px;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.08);
         margin-bottom: 20px;
     }
     
-    /* Dark/Light mode support adjustments */
     @media (prefers-color-scheme: light) {
         .glass-card {
-            background: rgba(0, 0, 0, 0.03);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.05);
+            background: rgba(15, 23, 42, 0.02);
+            border: 1px solid rgba(15, 23, 42, 0.06);
+            box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.03);
         }
     }
     
     /* Sentiment badges */
     .badge {
         display: inline-block;
-        padding: 6px 12px;
-        border-radius: 20px;
-        font-size: 0.85rem;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 0.75rem;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.5px;
     }
     
     .badge-positive {
-        background-color: rgba(46, 204, 113, 0.2);
-        color: #2ecc71;
-        border: 1px solid rgba(46, 204, 113, 0.4);
+        background-color: rgba(16, 185, 129, 0.08);
+        color: #10B981;
+        border: 1px solid rgba(16, 185, 129, 0.15);
     }
     
     .badge-negative {
-        background-color: rgba(231, 76, 60, 0.2);
-        color: #e74c3c;
-        border: 1px solid rgba(231, 76, 60, 0.4);
+        background-color: rgba(239, 68, 68, 0.08);
+        color: #EF4444;
+        border: 1px solid rgba(239, 68, 68, 0.15);
     }
     
     .sentiment-positive-card {
-        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-        color: white;
+        background: rgba(16, 185, 129, 0.05);
+        border: 1px solid rgba(16, 185, 129, 0.15);
+        color: #10B981;
         border-radius: 12px;
         padding: 20px;
-        box-shadow: 0 4px 20px rgba(56, 239, 125, 0.3);
+        box-shadow: 0 2px 12px rgba(16, 185, 129, 0.05);
     }
     
     .sentiment-negative-card {
-        background: linear-gradient(135deg, #cb2d3e 0%, #ef473a 100%);
-        color: white;
+        background: rgba(239, 68, 68, 0.05);
+        border: 1px solid rgba(239, 68, 68, 0.15);
+        color: #EF4444;
         border-radius: 12px;
         padding: 20px;
-        box-shadow: 0 4px 20px rgba(239, 71, 58, 0.3);
+        box-shadow: 0 2px 12px rgba(239, 68, 68, 0.05);
     }
     
     /* Status indicators */
@@ -102,24 +110,35 @@ st.markdown(
         margin-right: 8px;
     }
     .status-online {
-        background-color: #2ecc71;
-        box-shadow: 0 0 8px #2ecc71;
+        background-color: #10B981;
+        box-shadow: 0 0 8px #10B981;
     }
     .status-offline {
-        background-color: #e74c3c;
-        box-shadow: 0 0 8px #e74c3c;
+        background-color: #EF4444;
+        box-shadow: 0 0 8px #EF4444;
     }
     
-    /* Table headers styling */
+    /* Table styling */
     .history-table th {
-        background-color: rgba(255, 255, 255, 0.05);
+        background-color: rgba(128, 128, 128, 0.06);
         text-align: left;
-        padding: 8px;
+        padding: 10px 12px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #64748B;
+        border-bottom: 1px solid rgba(128, 128, 128, 0.15);
     }
     
     .history-table td {
-        padding: 8px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 10px 12px;
+        border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+        font-size: 0.9rem;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+        .history-table th {
+            color: #94A3B8;
+        }
     }
     </style>
     """,
@@ -129,11 +148,9 @@ st.markdown(
 # Initialize Session State
 if "history" not in st.session_state:
     st.session_state.history = []
-if "selected_sample" not in st.session_state:
-    st.session_state.selected_sample = ""
 
 # Sidebar Content
-st.sidebar.markdown("<h2 style='font-weight: 800;'>⚙️ System Control</h2>", unsafe_allow_html=True)
+st.sidebar.markdown("<h2 style='font-weight: 600; font-size: 1.5rem;'>System Control</h2>", unsafe_allow_html=True)
 st.sidebar.markdown(f"**Backend Endpoint:** `{FASTAPI_URL}`")
 
 # Health Check connection status
@@ -154,46 +171,20 @@ if api_online:
     st.sidebar.markdown(
         f'<div style="display: flex; align-items: center; margin-bottom: 20px;">'
         f'<span class="status-dot status-online"></span>'
-        f'<span style="color: #2ecc71; font-weight: 600;">API Service: Online</span>'
+        f'<span style="color: #10B981; font-weight: 600;">API Service: Online</span>'
         f'</div>',
         unsafe_allow_html=True
     )
-    st.sidebar.caption(f"🤖 Loaded: **{model_name}**")
+    st.sidebar.caption(f"Model: **{model_name}**")
 else:
     st.sidebar.markdown(
         f'<div style="display: flex; align-items: center; margin-bottom: 20px;">'
         f'<span class="status-dot status-offline"></span>'
-        f'<span style="color: #e74c3c; font-weight: 600;">API Service: Offline</span>'
+        f'<span style="color: #EF4444; font-weight: 600;">API Service: Offline</span>'
         f'</div>',
         unsafe_allow_html=True
     )
-    st.sidebar.warning("⚠️ FastAPI Backend is unreachable. Please verify that the API server is running.")
-
-# Sample Reviews Library
-positive_samples = [
-    "Amazing soundtrack, perfect pacing, and visuals that made the experience feel magical and cinematic.",
-    "This movie was fantastic! The acting was great and the plot was thrilling.",
-    "Exceeded expectations with inspiring storytelling, top-notch acting, and a powerful emotional message.",
-]
-
-negative_samples = [
-    "Visual effects were cheap, editing inconsistent, and the narrative failed to engage at all.",
-    "Started strong but didn't maintain the energy or emotional impact.",
-    "Terrible experience! The film dragged endlessly and made no sense at all.",
-]
-
-with st.sidebar.expander("📁 Sample Reviews"):
-    st.markdown("**Positive Reviews**")
-    for sample in positive_samples:
-        if st.button(sample[:30] + "...", key=f"pos_{hash(sample)}"):
-            st.session_state.selected_sample = sample
-            st.rerun()
-            
-    st.markdown("**Negative Reviews**")
-    for sample in negative_samples:
-        if st.button(sample[:30] + "...", key=f"neg_{hash(sample)}"):
-            st.session_state.selected_sample = sample
-            st.rerun()
+    st.sidebar.warning("FastAPI Backend is unreachable. Please verify that the API server is running.")
 
 # Main Layout split
 col1, col2 = st.columns([7, 5])
@@ -206,8 +197,8 @@ with col1:
     
     # Textarea input
     review_input = st.text_area(
-        "💬 Movie Review Text:",
-        value=st.session_state.selected_sample,
+        "Movie Review Text:",
+        value="",
         placeholder="Type a review here... (e.g., 'An absolute cinematic masterpiece, outstanding performances!')",
         height=180
     )
@@ -219,17 +210,17 @@ with col1:
     btn_col1, btn_col2 = st.columns([3, 7])
     with btn_col1:
         predict_click = st.button(
-            "Classify Sentiment 🚀",
+            "Classify Sentiment",
             use_container_width=True,
             disabled=predict_disabled
         )
     with btn_col2:
         if predict_disabled:
-            st.caption("🔴 Enable the FastAPI backend to activate classification.")
+            st.caption("Enable the FastAPI backend to activate classification.")
         elif word_count > 0 and word_count < 5:
-            st.caption("⚠️ Note: Short texts (< 5 words) might have less context for the model.")
+            st.caption("Note: Short texts (< 5 words) might have less context for the model.")
         else:
-            st.caption("⚡ Submits request to FastAPI /predict endpoint")
+            st.caption("Submits request to FastAPI /predict endpoint")
 
     if predict_click:
         if not review_input.strip():
@@ -237,7 +228,7 @@ with col1:
         elif len(review_input.split()) < 5:
             st.warning("Please enter at least 5 words for better context.")
         else:
-            with st.spinner("Invoking DistilBERT via FastAPI..."):
+            with st.spinner("Classifying sentiment..."):
                 try:
                     payload = {"text": review_input.strip()}
                     response = requests.post(f"{FASTAPI_URL}/predict", json=payload, timeout=5)
@@ -268,7 +259,7 @@ with col1:
 
 # Results and History
 with col2:
-    st.markdown("<h3 style='margin-top: 2rem;'>📊 Classification Result</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='margin-top: 2rem; font-weight: 600;'>Classification Result</h3>", unsafe_allow_html=True)
     
     if "last_result" in st.session_state:
         result = st.session_state.last_result
@@ -277,20 +268,20 @@ with col2:
         # Display custom styled card
         if is_pos:
             st.markdown(
-                f"""
+                """
                 <div class="sentiment-positive-card">
-                    <h2 style="color: white; margin: 0; font-weight: 800;">Positive 😊</h2>
-                    <p style="margin: 5px 0 0 0; opacity: 0.9;">DistilBERT classified the review as positive.</p>
+                    <h3 style="margin: 0; font-weight: 600; color: #10B981;">Positive</h3>
+                    <p style="margin: 6px 0 0 0; font-size: 0.95rem; opacity: 0.85;">Model classified the review as positive.</p>
                 </div>
                 """,
                 unsafe_allow_html=True
             )
         else:
             st.markdown(
-                f"""
+                """
                 <div class="sentiment-negative-card">
-                    <h2 style="color: white; margin: 0; font-weight: 800;">Negative 😞</h2>
-                    <p style="margin: 5px 0 0 0; opacity: 0.9;">DistilBERT classified the review as negative.</p>
+                    <h3 style="margin: 0; font-weight: 600; color: #EF4444;">Negative</h3>
+                    <p style="margin: 6px 0 0 0; font-size: 0.95rem; opacity: 0.85;">Model classified the review as negative.</p>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -304,7 +295,7 @@ with col2:
         st.markdown(
             """
             <div class="glass-card" style="text-align: center; padding: 40px 20px;">
-                <h4 style="margin: 0; opacity: 0.6;">Awaiting Review Submission</h4>
+                <h4 style="margin: 0; opacity: 0.6; font-weight: 600;">Awaiting Review Submission</h4>
                 <p style="font-size: 0.9rem; opacity: 0.5; margin-top: 10px;">
                     Type a movie review on the left and click Classify Sentiment.
                 </p>
@@ -315,40 +306,38 @@ with col2:
 
 # Prediction History Section (Bottom)
 st.markdown("---")
-st.markdown("### 🕒 Prediction History (Session State)")
+st.markdown("### Prediction History")
 
 if st.session_state.history:
-    # Build clean HTML table
+    # Build clean HTML table without newlines or spaces to prevent markdown code block rendering
     table_rows = ""
     for idx, item in enumerate(st.session_state.history):
         text_truncated = item["text"][:100] + "..." if len(item["text"]) > 100 else item["text"]
         badge_class = "badge-positive" if item["sentiment"] == "Positive" else "badge-negative"
-        table_rows += f"""
-        <tr>
-            <td style="font-size: 0.9rem; width: 60%;">{text_truncated}</td>
-            <td style="width: 20%;"><span class="badge {badge_class}">{item["sentiment"]}</span></td>
-            <td style="font-weight: 600; width: 20%;">{item["confidence"]:.2%}</td>
-        </tr>
-        """
+        table_rows += (
+            '<tr>'
+            f'<td style="width: 60%;">{text_truncated}</td>'
+            f'<td style="width: 20%;"><span class="badge {badge_class}">{item["sentiment"]}</span></td>'
+            f'<td style="font-weight: 600; width: 20%;">{item["confidence"]:.2%}</td>'
+            '</tr>'
+        )
         
-    st.markdown(
-        f"""
-        <table class="history-table" style="width:100%; border-collapse: collapse;">
-            <thead>
-                <tr>
-                    <th>Review Fragment</th>
-                    <th>Predicted Sentiment</th>
-                    <th>Confidence Score</th>
-                </tr>
-            </thead>
-            <tbody>
-                {table_rows}
-            </tbody>
-        </table>
-        """,
-        unsafe_allow_html=True
+    html_table = (
+        '<table class="history-table" style="width:100%; border-collapse: collapse; margin-top: 10px;">'
+        '<thead>'
+        '<tr>'
+        '<th>Review Fragment</th>'
+        '<th>Predicted Sentiment</th>'
+        '<th>Confidence Score</th>'
+        '</tr>'
+        '</thead>'
+        f'<tbody>{table_rows}</tbody>'
+        '</table>'
     )
-    if st.button("🧹 Clear History"):
+    st.markdown(html_table, unsafe_allow_html=True)
+    
+    st.markdown("<br>", unsafe_allow_html=True)
+    if st.button("Clear History"):
         st.session_state.history = []
         if "last_result" in st.session_state:
             del st.session_state.last_result
